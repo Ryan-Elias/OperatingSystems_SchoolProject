@@ -1,0 +1,99 @@
+
+
+Here is my active note taking file in order to gain some traction on this project. For now I will just review the project file and make notes for things to familiarize myself with.
+
+
+The purpose of this project is to simpulate CPU scheduling algorithms and print out statistics to STDOUT. 
+
+Given a known workload, design a sy stem to read an instruction file and perform First Come, First Served Scheduling. 
+The code will then output statistics of the scheduling algorithm.
+
+Not the sample instruction file in the project outline. 
+
+P
+p N
+<pid> <burst> <priority>
+<pid> <burst> <priority>
+...
+
+
+The first line contains P, the number of processes avilable to run instructions. For this assignment, P WILL ONLY BE EQUAL TO 1.
+
+The second line contains (p) and N, (p) is the number of execution elements available to the system. (Can be considered to be the number of threads)
+N is the number of instructions in the lines to follow. 
+Where:
+1 <= P <= 32
+1 <= p <= 2^15
+1 <= N <= 2^15
+(testing will only be for p values of less than or equal to 32)
+
+
+After the first line, the instruction files contain three integers. 
+The first <pid> contains the process that needs to run. 
+The Second <burst> is the amount of time needed to run on the CPU. Range of the burst will be greater than 1 and less than 2^10.
+The third <prioriy> is the priority of the process. (not needed for this project but important for future projects so should still be tracked)
+
+If an integer is listed under p, it will have at least 1 instruction listed. 
+
+
+OUTPUT
+
+
+Output should be 7 lines of numbers printed to STDOUT
+<Voluntary context switch> (int)
+<CPU Utilization> (int)
+<delta Throughput> (doubles) //NOT FLOATS
+<delta turnaround time>
+<delta waiting time>
+<delta response time>
+
+
+
+
+Voluntary context switch:
+Output the number of times the scheduler changes the running processes. This value will be less than or equal to N. 
+A context switch occurs when consecutive processes have different Pids.
+//perhaps keep a running int variable of the most recent pid. 
+
+Nonvoluntary context switch:
+If a pid switches but later has another burst, then it is considered a nonvoluntary context switch. 
+//Keep an array of all pids that have been used in the past and run the current pid against the array. 
+//I need to play around with keeping one additional value that holds the most recent pid or just keeping them all in an array.
+// I could potentially keep an array of all pids used (repeated or not) in the order that they are received, but that would increase runtime for the nonvol search. 
+
+//i'll think on this more when I am putting code to page
+
+
+CPU Utilization
+Calculating CPU utilication will involved calculating the percentage of time that all the processes have been occupied. The range is between 0 and 100 percent for a typical one process, single threaded system. In this case, we only have one process that will always be occupied, so the value should be 100. 
+//I'm not really sure what this should translate to in terms of code. It seems that the scheduler is always reading in instructions and should therefor always be on
+//so the questions becomes: Do I just set this to be 100 or actually create an algorithm to determine CPU Utilization? Maybe reading further will give me clarity.
+
+Throughput
+For the amount of total burst time, calculate the amount of execution elements that have been completed. The value should be decimal value with two decimal places.
+//keep a running int of the number of processes that have been executed.
+//keep a running int of the total burst time for each process.
+//cast to double and then divide to find the number of processes per unit of time.
+
+Turnaround Time
+The time it takes from submission to task completion. In this case, all tasks are submitted at time zero.
+This means that all items will have a turnaround time that is equal to its burst time + the collective burst time of all processes prior.
+//keep a running total of burst times and a running array of turnaround times. Add the current burst time to the total BEFORE  adding the turnaround time to array.
+//keep in mind that a task is complete if it is called at a later time, that is, if there is a nonvoluntary context switch for that process. 
+
+Waiting Time
+The amount of time a task spends waiting on the ready queue. This does not include the time spent executing (does not include that items burst time). 
+//I can use the same running total used in the turnaround time to calculate waiting times per process. I will have to use a second array to store wait times.
+// unless I also track what each processes burst time is, then I can keep these two arrays and subtract the burst time of each element to find the waiting times. 
+// note that a process' wait time includes the time between calls. or the time between nonvoluntary context switches.  
+
+Response Time
+The amount of time it takes for a task to start running. A task starts running the first time its pid is mentioned. Return the average response time for all tasks.
+//If the Pid is unique, note the current wait time.
+
+
+
+
+
+Runing the code
+Code shoult take a single text file as a command line argument, if not command line argument it given, code should read text from STDIN. 
