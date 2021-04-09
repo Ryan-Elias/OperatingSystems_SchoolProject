@@ -1,0 +1,4 @@
+Inside of my main method, when determining if a file is present or not, I found relevant code from the following link:
+https://stackoverflow.com/questions/49992400/how-to-read-from-files-in-argv-or-stdin-if-none-are-given
+
+Other than that, this project was a painstaking example of trial and error.

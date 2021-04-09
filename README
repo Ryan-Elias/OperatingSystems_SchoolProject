@@ -1,0 +1,3 @@
+One of the major bugs that I know that I have in my code is that I am assuming, without any real reason, that the last instruction in the file will be
+a context switch. My original code resulted in an off-by-one error probably because I was not accounting for the last two instructions in the file when
+looking for context switches. 

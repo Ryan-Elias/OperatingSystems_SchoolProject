@@ -111,7 +111,7 @@ int readFile(FILE *fp) {
 
     printf("%d\n", uniqueInst); //Voluntary Context Switches
     printf("%d\n", totalContextSwitches - uniqueInst); //Non-Voluntary Context Switches
-    printf("%f\n", CPU); // CPU Utilization
+    printf("%.2f\n", CPU); // CPU Utilization
     printf("%.2f\n", (double) uniqueInst / totalBurstTime ); // Avg Throughput
 
 
